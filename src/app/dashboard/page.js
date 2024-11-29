@@ -59,6 +59,10 @@ const DashboardContent = () => {
         }),
       });
 
+      if (response.status === 404) {
+        alert("Contact Number not in Database");
+      }
+
       if (!response.ok) {
         throw new Error("Failed to add contact");
       }
@@ -70,6 +74,58 @@ const DashboardContent = () => {
     }
   };
 
+  const updateContact = async (contact) => {
+    try {
+      const response = await fetch("/api/contacts/edit-contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userDetails?._id,
+          contactId: contact._id,
+          ...contact,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update contact");
+      }
+
+      // Refresh the contacts list after updating a contact
+      fetchContacts();
+      setSelectedContact(contacts[contacts.findIndex((c) => c._id === selectedContact._id)]);
+    } catch (error) {
+      console.log("Error updating contact:", error);
+    }
+  }
+
+  const deleteContact = async (contact) => {
+    console.log(contact,"DELETING CONTACT");
+    try {
+      const response = await fetch("/api/contacts/remove-contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userDetails?._id,
+          contactId: contact,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete contact");
+      }
+
+      // Refresh the contacts list after deleting a contact
+      fetchContacts();
+      setSelectedContact({});
+    } catch (error) {
+      console.log("Error deleting contact:", error);
+    }
+  }
+
   return (
     <div className="flex h-screen bg-gray-100">
       <Sidebar
@@ -78,7 +134,7 @@ const DashboardContent = () => {
         selectedContact={selectedContact}
         setSelectedContact={setSelectedContact}
       />
-      <MainScreen selectedContact={selectedContact}/>
+      <MainScreen onDeleteContact={deleteContact} onUpdateContact={updateContact} selectedContact={selectedContact}/>
     </div>
   );
 };

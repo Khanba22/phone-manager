@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import Contact from "@/app/_Database/Schemas/ContactSchema";
 
-export async function PATCH(req) {
+export async function POST(req) {
   try {
     const { contactId, name, contactNo, email } = await req.json();
-
+    console.log(contactId, name, contactNo, email);
     const updatedContact = await Contact.findByIdAndUpdate(
       contactId,
       { name, contactNo, email },
