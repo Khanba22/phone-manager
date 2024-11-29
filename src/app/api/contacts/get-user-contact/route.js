@@ -3,9 +3,12 @@ import UserSchema from "@/app/_Database/Schemas/UserSchema";
 export const POST = async (req) => {
   try {
     const { userId } = await req.json();
+
     const user = await UserSchema.findById(userId).populate("contacts");
-    NextResponse.json({ contacts: user.contacts });
+    console.log(user);
+    return NextResponse.json({ contacts: user.contacts },{status:200});
   } catch (error) {
-    NextResponse.error(error);
+    console.error("Error fetching contacts:", error);
+    return NextResponse.json({ message: "Failed to fetch contacts" },{status:500});
   }
 };

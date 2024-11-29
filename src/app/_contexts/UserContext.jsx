@@ -35,17 +35,18 @@ export const UserContextProvider = ({ children }) => {
     return false;
   };
 
-  const login = async () => {
+  const login = async (credentials) => {
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userDetails),
+        body: JSON.stringify(credentials),
       });
       const data = await response.json();
       if (response.ok) {
+        console.log(data);
         setUserDetails(data.user);
         return true;
       }

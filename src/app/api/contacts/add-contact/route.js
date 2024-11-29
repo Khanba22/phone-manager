@@ -1,24 +1,27 @@
 import { NextResponse } from "next/server";
 import Contact from "@/app/_Database/Schemas/ContactSchema";
-import User from "@/app/_Database/Schemas/UserSchema";
+import UserSchema from "@/app/_Database/Schemas/UserSchema";
 
 export async function POST(req) {
   try {
-    const { name, contactNo, email, userId } = await req.json();
-
-    const user = await User.findOne({ email: email, contactNo: contactNo });
+    const { name, contactNo, userId } = await req.json();
+    console.log(name, contactNo, userId);
+    const user = await UserSchema.findOne({ contactNo: contactNo });
     if (!user) {
-      return NextResponse.json({ error: "Invalid Contact Details" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Invalid Contact Details " },
+        { status: 404 }
+      );
     }
     const newContact = new Contact({
       name,
       contactNo,
-      email,
+      email: user.email,
       user: user,
     });
 
     const savedContact = await newContact.save();
-    await User.findByIdAndUpdate(userId, {
+    await UserSchema.findByIdAndUpdate(userId, {
       $push: { contacts: savedContact._id },
     });
 
