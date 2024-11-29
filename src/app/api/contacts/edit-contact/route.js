@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import Contact from "@/app/_Database/Schemas/ContactSchema";
+import { connectToMongo } from "@/app/_Database/connectToMongo";
 
 export async function POST(req) {
   try {
+    connectToMongo();
     const { contactId, name, contactNo, email } = await req.json();
     console.log(contactId, name, contactNo, email);
     const updatedContact = await Contact.findByIdAndUpdate(

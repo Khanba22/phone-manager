@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import React from 'react';
 
 const Navbar = () => {
@@ -7,29 +8,30 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         {/* Company Name and Location */}
         <div className="flex items-center space-x-2">
-          <span className="text-xl font-bold text-blue-600">Company Name</span>
-          <span className="text-sm text-gray-500">| Location</span>
+          <span className="text-xl font-bold text-blue-600">Contact Manager</span>
+          <span className="text-sm text-gray-500">| Made By Mushan Khan</span>
         </div>
 
         {/* Navigation Links */}
         <nav className="hidden md:flex space-x-6">
           <a
-            href="#"
+            href="/dashboard"
             className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
           >
-            Link 1
+            Dashboard
           </a>
-          <a
-            href="#"
+          <Link
+            href="/"
             className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
           >
-            Link 2
-          </a>
+            Home Page
+          </Link>
           <a
-            href="#"
+            href="https://github.com/Khanba22"
+            target='_blank'
             className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
           >
-            Link 3
+            My Github
           </a>
         </nav>
 

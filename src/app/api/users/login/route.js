@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import User from "@/app/_Database/Schemas/UserSchema";
 import bcrypt from "bcrypt";
+import { connectToMongo } from "@/app/_Database/connectToMongo";
 
 export async function POST(req) {
   try {
+    connectToMongo();
     const { username, password } = await req.json();
     console.log(username, password);
     const user = await User.findOne({ username });

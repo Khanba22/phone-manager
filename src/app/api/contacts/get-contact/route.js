@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import Contact from "@/app/_Database/Schemas/ContactSchema";
+import { connectToMongo } from "@/app/_Database/connectToMongo";
 
 export async function POST(req) {
   try {
+    connectToMongo();
     const { contactNo } = await req.json();
 
     // Check if contactNo is provided
